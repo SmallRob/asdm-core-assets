@@ -1,0 +1,19 @@
+{
+  "version": "1.0.1",
+  "toolsets": [
+    {
+      "id": "context-builder",
+      "name": "Context Builder",
+      "description": "A toolset for building context for a workspace.",
+      "version": "0.0.1",
+      "downloadUrl": "context-builder.zip"
+    },
+    {
+      "id": "spec-builder-agile-standard",
+      "name": "Spec Builder for Agile Team (Standard version)",
+      "description": "Spec Builder for Agile Team (Standard version) is a toolset for building specification documents for a Software Development team who is using Agile methodology.",
+      "version": "0.0.1",
+      "downloadUrl": "spec-builder-agile-standard.zip"
+    }
+  ]
+}

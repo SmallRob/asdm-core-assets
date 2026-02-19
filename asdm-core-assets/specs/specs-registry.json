@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "specs": [
+    {
+      "id": "reactjs",
+      "name": "React.js Development Specs",
+      "description": "Coding standards and guidelines for React.js development",
+      "version": "1.0.0",
+      "path": "reactjs"
+    }
+  ]
+}
