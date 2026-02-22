@@ -11,6 +11,9 @@ jobs:
   execute-task:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,7 +26,7 @@ jobs:
         run: |
           npm install -g @tencent-ai/codebuddy-code
           codebuddy --version
-          codebuddy -p "打印环境变量" -y --verbose
+          codebuddy -p "对当前工作区进行总结" -y --verbose
 
       - name: Collect results
         if: always()
