@@ -7,6 +7,20 @@ on:
         description: 'Prompt text for CodeBuddy'
         required: true
         default: ''
+      verbose:
+        description: 'Enable verbose logging'
+        required: false
+        default: true
+        type: boolean
+      output-format:
+        description: 'Output format'
+        required: false
+        default: 'stream-json'
+        type: choice
+        options:
+          - stream-json
+          - json
+          - text
 
 env:
   ACTIONS_STEP_DEBUG: true
@@ -34,7 +48,14 @@ jobs:
           CODEBUDDY_API_KEY: ${{ secrets.CODEBUDDY_API_KEY }}
           CODEBUDDY_INTERNET_ENVIRONMENT: ${{ secrets.CODEBUDDY_INTERNET_ENVIRONMENT }}
         run: |
-          codebuddy -p "${{ inputs.prompt-text }}" -y --verbose --output-format stream-json
+          ARGS="-p \"${{ inputs.prompt-text }}\" -y"
+          if [ "${{ inputs.verbose }}" = "true" ]; then
+            ARGS="$ARGS --verbose"
+          fi
+          if [ -n "${{ inputs.output-format }}" ]; then
+            ARGS="$ARGS --output-format ${{ inputs.output-format }}"
+          fi
+          eval "codebuddy $ARGS"
 
       - name: Collect results
         if: always()
