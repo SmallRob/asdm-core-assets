@@ -134,6 +134,12 @@ jobs:
           # Read prompt template and replace placeholder with actual result directory
           ANALYSIS_PROMPT=$(sed "s|{RESULT_DIR}|$RESULT_DIR|g" "$PROMPT_FILE")
 
+          # Print the actual prompt content for debugging
+          echo "=== Prompt Content ==="
+          echo "$ANALYSIS_PROMPT"
+          echo "=== End of Prompt ==="
+          echo ""
+
           echo "=== Starting CodeBuddy Analysis ==="
           echo "Repository: $REPO_NAME"
           echo "Result directory: $RESULT_DIR"
