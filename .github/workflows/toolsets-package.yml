@@ -1,0 +1,52 @@
+name: Package Toolsets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/toolsets/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/toolsets/**'
+  workflow_dispatch:
+
+jobs:
+  package-toolsets:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create zip files for each toolset
+        run: |
+          TOOLSETS_DIR="asdm-core-assets/toolsets"
+          
+          # Create a directory to store zip files
+          mkdir -p packaged-toolsets
+          
+          # Loop through each subdirectory in toolsets
+          for dir in "$TOOLSETS_DIR"/*/; do
+            if [ -d "$dir" ]; then
+              # Get the directory name
+              dirname=$(basename "$dir")
+              echo "Packaging toolset: $dirname"
+              
+              # Create zip file
+              (cd "$TOOLSETS_DIR" && zip -r "../packaged-toolsets/${dirname}.zip" "$dirname")
+            fi
+          done
+          
+          # List created zip files
+          echo "Created zip files:"
+          ls -la packaged-toolsets/
+
+      - name: Upload toolset artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: toolsets-packages
+          path: packaged-toolsets/*.zip
+          retention-days: 30
