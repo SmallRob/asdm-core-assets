@@ -197,21 +197,35 @@ jobs:
           # Push changes to target branch
           git push origin "$WORKSPACE_GIT_BRANCH_TARGET"
 
-          # Create Pull Request using GitHub CLI and capture JSON output
+          # Create Pull Request using GitHub CLI
           set +e
           PR_RESULT=$(gh pr create \
             --title "Auto-generated: CodeBuddy changes" \
             --body "Automated changes from CodeBuddy workflow execution." \
             --base "$WORKSPACE_GIT_BRANCH" \
             --head "$WORKSPACE_GIT_BRANCH_TARGET" \
-            --draft \
-            --json number,url,title,state,createdAt,headRefName,baseRefName 2>&1)
+            --draft 2>&1)
           PR_EXIT_CODE=$?
           set -e
 
           if [ $PR_EXIT_CODE -eq 0 ]; then
-            echo "PR created successfully"
-            echo "$PR_RESULT" > "$PR_JSON_FILE"
+            echo "PR created successfully: $PR_RESULT"
+            # Extract PR number from URL (e.g., https://github.com/owner/repo/pull/123)
+            PR_URL=$(echo "$PR_RESULT" | grep -oE 'https://[^ ]+pull/[0-9]+' | head -1)
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+            
+            # Get PR info in JSON format
+            if [ -n "$PR_NUMBER" ]; then
+              PR_JSON=$(gh pr view "$PR_NUMBER" --json number,url,title,state,createdAt,headRefName,baseRefName 2>/dev/null || echo "")
+              if [ -n "$PR_JSON" ]; then
+                echo "$PR_JSON" > "$PR_JSON_FILE"
+              else
+                # Fallback: construct minimal JSON from available info
+                echo "{\"number\": $PR_NUMBER, \"url\": \"$PR_URL\", \"title\": \"Auto-generated: CodeBuddy changes\", \"state\": \"OPEN\", \"headRefName\": \"$WORKSPACE_GIT_BRANCH_TARGET\", \"baseRefName\": \"$WORKSPACE_GIT_BRANCH\"}" > "$PR_JSON_FILE"
+              fi
+            else
+              echo "{\"status\": \"created\", \"url\": \"$PR_RESULT\"}" > "$PR_JSON_FILE"
+            fi
           else
             echo "PR create failed with exit code $PR_EXIT_CODE"
             echo "Error output: $PR_RESULT"
