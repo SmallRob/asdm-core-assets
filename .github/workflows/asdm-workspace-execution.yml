@@ -11,10 +11,18 @@ on:
         description: 'Git URL of the workspace repository to work on'
         required: true
         default: ''
+      workspace-git-token:
+        description: 'Personal access token for the workspace repository (required for private repos and push operations)'
+        required: false
+        default: ''
       workspace-git-branch:
-        description: 'Branch of the workspace repository to checkout'
+        description: 'Branch of the workspace repository to checkout (base branch)'
         required: false
         default: 'main'
+      workspace-git-branch-target:
+        description: 'Target branch name to create from workspace-git-branch for PR'
+        required: false
+        default: ''
       verbose:
         description: 'Enable verbose logging'
         required: false
@@ -45,10 +53,57 @@ jobs:
         env:
           WORKSPACE_GIT_URL: ${{ github.event.inputs.workspace-git-url }}
           WORKSPACE_GIT_BRANCH: ${{ github.event.inputs.workspace-git-branch }}
+          WORKSPACE_GIT_TOKEN: ${{ github.event.inputs.workspace-git-token }}
         run: |
-          git clone --branch "$WORKSPACE_GIT_BRANCH" --single-branch "$WORKSPACE_GIT_URL" workspace
+          # Configure git to use token for authentication
+          if [ -n "$WORKSPACE_GIT_TOKEN" ]; then
+            # Extract host from URL for credential helper
+            GIT_HOST=$(echo "$WORKSPACE_GIT_URL" | sed -E 's|.*@([^:/]+).*|\1|' | head -1)
+            
+            # Configure credential helper
+            git config --global credential.helper store
+            echo "https://x-access-token:${WORKSPACE_GIT_TOKEN}@${GIT_HOST}" > ~/.git-credentials
+            
+            # Clone with token embedded in URL if it's an HTTPS URL
+            if [[ "$WORKSPACE_GIT_URL" == https://* ]]; then
+              AUTH_URL=$(echo "$WORKSPACE_GIT_URL" | sed "s|https://|https://x-access-token:${WORKSPACE_GIT_TOKEN}@|")
+              git clone --branch "$WORKSPACE_GIT_BRANCH" --single-branch "$AUTH_URL" workspace
+            else
+              git clone --branch "$WORKSPACE_GIT_BRANCH" --single-branch "$WORKSPACE_GIT_URL" workspace
+            fi
+          else
+            git clone --branch "$WORKSPACE_GIT_BRANCH" --single-branch "$WORKSPACE_GIT_URL" workspace
+          fi
+          
           echo "Workspace repository cloned to: $(pwd)/workspace"
           ls -la workspace
+
+      - name: Configure Git and create target branch
+        if: ${{ github.event.inputs.workspace-git-branch-target != '' }}
+        env:
+          WORKSPACE_GIT_BRANCH: ${{ github.event.inputs.workspace-git-branch }}
+          WORKSPACE_GIT_BRANCH_TARGET: ${{ github.event.inputs.workspace-git-branch-target }}
+          WORKSPACE_GIT_TOKEN: ${{ github.event.inputs.workspace-git-token }}
+        working-directory: ${{ github.workspace }}/workspace
+        run: |
+          # Configure git for commits
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Ensure credential helper is configured for push
+          if [ -n "$WORKSPACE_GIT_TOKEN" ]; then
+            GIT_HOST=$(git remote get-url origin | sed -E 's|.*@([^:/]+).*|\1|' | head -1)
+            git config --global credential.helper store
+            echo "https://x-access-token:${WORKSPACE_GIT_TOKEN}@${GIT_HOST}" > ~/.git-credentials
+          fi
+
+          # Create and checkout new branch from current branch
+          echo "Creating new branch '$WORKSPACE_GIT_BRANCH_TARGET' from '$WORKSPACE_GIT_BRANCH'"
+          git checkout -b "$WORKSPACE_GIT_BRANCH_TARGET"
+
+          # Push the new branch to remote
+          git push -u origin "$WORKSPACE_GIT_BRANCH_TARGET"
+          echo "Branch '$WORKSPACE_GIT_BRANCH_TARGET' created and pushed to remote"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -102,6 +157,49 @@ jobs:
             # Also generate JSON output for artifacts
             cat "$LOG_FILE" | node "$PARSER" --stdin -f json > "${{ github.workspace }}/execution-parsed.json" 2>/dev/null || true
           fi
+
+      - name: Check for changes and create PR
+        if: ${{ github.event.inputs.workspace-git-branch-target != '' }}
+        env:
+          WORKSPACE_GIT_BRANCH: ${{ github.event.inputs.workspace-git-branch }}
+          WORKSPACE_GIT_BRANCH_TARGET: ${{ github.event.inputs.workspace-git-branch-target }}
+          WORKSPACE_GIT_TOKEN: ${{ github.event.inputs.workspace-git-token }}
+          GH_TOKEN: ${{ github.event.inputs.workspace-git-token }}
+        working-directory: ${{ github.workspace }}/workspace
+        run: |
+          # Ensure credential helper is configured for push
+          if [ -n "$WORKSPACE_GIT_TOKEN" ]; then
+            GIT_HOST=$(git remote get-url origin | sed -E 's|.*@([^:/]+).*|\1|' | head -1)
+            git config --global credential.helper store
+            echo "https://x-access-token:${WORKSPACE_GIT_TOKEN}@${GIT_HOST}" > ~/.git-credentials
+          fi
+
+          # Check if there are any changes
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes detected. Skipping commit and PR creation."
+            exit 0
+          fi
+
+          echo "Changes detected. Committing and pushing..."
+
+          # Add all changes
+          git add -A
+
+          # Commit changes
+          git commit -m "chore: automated changes from CodeBuddy"
+
+          # Push changes to target branch
+          git push origin "$WORKSPACE_GIT_BRANCH_TARGET"
+
+          # Create Pull Request using GitHub CLI
+          gh pr create \
+            --title "Auto-generated: CodeBuddy changes" \
+            --body "Automated changes from CodeBuddy workflow execution." \
+            --base "$WORKSPACE_GIT_BRANCH" \
+            --head "$WORKSPACE_GIT_BRANCH_TARGET" \
+            --draft || echo "PR may already exist or creation failed"
+
+          echo "PR creation process completed"
 
       - name: Upload log artifacts
         if: always()
