@@ -198,6 +198,7 @@ jobs:
           git push origin "$WORKSPACE_GIT_BRANCH_TARGET"
 
           # Create Pull Request using GitHub CLI and capture JSON output
+          set +e
           PR_RESULT=$(gh pr create \
             --title "Auto-generated: CodeBuddy changes" \
             --body "Automated changes from CodeBuddy workflow execution." \
@@ -205,21 +206,27 @@ jobs:
             --head "$WORKSPACE_GIT_BRANCH_TARGET" \
             --draft \
             --json number,url,title,state,createdAt,headRefName,baseRefName 2>&1)
-
           PR_EXIT_CODE=$?
+          set -e
 
           if [ $PR_EXIT_CODE -eq 0 ]; then
             echo "PR created successfully"
             echo "$PR_RESULT" > "$PR_JSON_FILE"
           else
-            # Check if PR already exists
-            EXISTING_PR=$(gh pr list --head "$WORKSPACE_GIT_BRANCH_TARGET" --json number,url,title,state --jq '.[0]')
-            if [ -n "$EXISTING_PR" ] && [ "$EXISTING_PR" != "null" ]; then
-              echo "PR already exists"
+            echo "PR create failed with exit code $PR_EXIT_CODE"
+            echo "Error output: $PR_RESULT"
+            
+            # Check if PR already exists for this branch
+            EXISTING_PR=$(gh pr list --head "$WORKSPACE_GIT_BRANCH_TARGET" --json number,url,title,state 2>/dev/null | jq '.[0]' 2>/dev/null || echo "")
+            
+            if [ -n "$EXISTING_PR" ] && [ "$EXISTING_PR" != "null" ] && [ "$EXISTING_PR" != "" ]; then
+              echo "PR already exists for this branch"
               echo "{\"status\": \"already_exists\", \"pr\": $EXISTING_PR}" > "$PR_JSON_FILE"
             else
-              echo "PR creation failed"
-              echo "{\"status\": \"error\", \"message\": $(echo "$PR_RESULT" | jq -Rs .)}" > "$PR_JSON_FILE"
+              echo "PR creation failed and no existing PR found"
+              # Escape the error message for JSON
+              ERROR_MSG=$(echo "$PR_RESULT" | jq -Rs .)
+              echo "{\"status\": \"error\", \"message\": $ERROR_MSG, \"exitCode\": $PR_EXIT_CODE}" > "$PR_JSON_FILE"
             fi
           fi
 
