@@ -1,0 +1,77 @@
+{
+  "version": "1.0.0",
+  "dateCreated": "2026-03-18T00:00:00Z",
+  "dateUpdated": "2026-03-18T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform",
+  "skills": [
+    {
+      "id": "pptx",
+      "guid": "d1e2f3a4-b5c6-7890-def1-234567890123",
+      "name": "PPTX Presentation Skills",
+      "description": "Comprehensive capabilities for creating, editing, and analyzing PowerPoint presentations using HTML-to-PPTX conversion and Office Open XML manipulation",
+      "version": "1.0.0",
+      "downloadUrl": "pptx.zip",
+      "path": "pptx",
+      "entryPoint": "pptx/SKILL.md",
+      "license": "Proprietary",
+      "dateCreated": "2026-03-18T00:00:00Z",
+      "dateUpdated": "2026-03-18T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform",
+      "capabilities": [
+        "Create presentations from scratch",
+        "Edit existing presentations",
+        "Work with presentation templates",
+        "Convert HTML to PowerPoint",
+        "Extract and analyze content",
+        "Manipulate Office Open XML",
+        "Generate thumbnail grids",
+        "Text inventory extraction"
+      ],
+      "scripts": [
+        "html2pptx.js",
+        "inventory.py",
+        "rearrange.py",
+        "replace.py",
+        "thumbnail.py"
+      ]
+    },
+    {
+      "id": "pdf-official",
+      "guid": "a2b3c4d5-e6f7-8901-abcd-234567890123",
+      "name": "PDF Processing Official Skills",
+      "description": "Comprehensive PDF manipulation toolkit for extracting text and tables, creating new PDFs, merging/splitting documents, and handling forms",
+      "version": "1.0.0",
+      "downloadUrl": "pdf-official.zip",
+      "path": "pdf-official",
+      "entryPoint": "pdf-official/SKILL.md",
+      "license": "Proprietary",
+      "dateCreated": "2026-03-18T00:00:00Z",
+      "dateUpdated": "2026-03-18T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform",
+      "capabilities": [
+        "Extract text with layout preservation",
+        "Extract tables with structured data",
+        "Create PDFs from scratch",
+        "Merge and split PDF documents",
+        "Fill PDF forms (fillable and non-fillable)",
+        "Add watermarks and annotations",
+        "Password protection and encryption",
+        "OCR for scanned PDFs",
+        "Visual form analysis",
+        "Batch processing"
+      ],
+      "scripts": [
+        "check_fillable_fields.py",
+        "extract_form_field_info.py",
+        "convert_pdf_to_images.py",
+        "create_validation_image.py",
+        "check_bounding_boxes.py",
+        "fill_fillable_fields.py",
+        "fill_pdf_form_with_annotations.py"
+      ]
+    }
+  ]
+}

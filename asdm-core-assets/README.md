@@ -13,6 +13,13 @@ Contains toolsets that provide functionality for various development tasks. Each
 ### specs/
 Contains general specifications (rules) for various technology stacks and development practices. These specs are automatically added by asdm-bootstrapper as needed.
 
+### skills/
+Contains specialized skills (tools and workflows) for various development tasks. These skills provide comprehensive capabilities for AI-assisted development workflows, including:
+- PPTX presentation creation, editing, and analysis
+- Document processing and transformation
+- Automated workflow execution
+- Multi-step task automation
+
 ### contexts/
 Stores all context spaces processed by ASDM, creating a unified repository that grows with community contributions.
 
