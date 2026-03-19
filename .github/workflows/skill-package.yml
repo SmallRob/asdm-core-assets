@@ -1,0 +1,53 @@
+name: Package Skills
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/skills/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/skills/**'
+  workflow_dispatch:
+
+jobs:
+  package-skills:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create zip files for each skill
+        run: |
+          SKILLS_DIR="asdm-core-assets/skills"
+          OUTPUT_DIR="$GITHUB_WORKSPACE/packaged-skills"
+          
+          # Create a directory to store zip files
+          mkdir -p "$OUTPUT_DIR"
+          
+          # Loop through each subdirectory in skills
+          for dir in "$SKILLS_DIR"/*/; do
+            if [ -d "$dir" ]; then
+              # Get the directory name
+              dirname=$(basename "$dir")
+              echo "Packaging skill: $dirname"
+              
+              # Create zip file
+              (cd "$SKILLS_DIR" && zip -r "$OUTPUT_DIR/${dirname}.zip" "$dirname")
+            fi
+          done
+          
+          # List created zip files
+          echo "Created zip files:"
+          ls -la "$OUTPUT_DIR/"
+
+      - name: Upload skill artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: skills-packages
+          path: packaged-skills/*.zip
+          retention-days: 30
