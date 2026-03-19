@@ -51,3 +51,29 @@ jobs:
           name: toolsets-packages
           path: packaged-toolsets/*.zip
           retention-days: 30
+
+      # Deploy to SIT01 environment
+      - name: Deploy to SIT01
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          # Install SSH client
+          apt-get update && apt-get install -y openssh-client rsync
+          
+          # Remote paths
+          ARTIFACTS_DIR="/data/asdm-deploy/artifacts"
+          
+          # Create remote directory
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/toolsets"
+            
+          # Upload files
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
+            packaged-toolsets/ \
+            $SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/toolsets/
+          
+          echo "Deployed toolsets to SIT01 successfully"
