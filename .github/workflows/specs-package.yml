@@ -26,22 +26,16 @@ jobs:
           SPECS_DIR="asdm-core-assets/specs"
           OUTPUT_DIR="$GITHUB_WORKSPACE/packaged-specs"
           
-          # Create a directory to store zip files
           mkdir -p "$OUTPUT_DIR"
           
-          # Loop through each subdirectory in specs
           for dir in "$SPECS_DIR"/*/; do
             if [ -d "$dir" ]; then
-              # Get the directory name
               dirname=$(basename "$dir")
               echo "Packaging spec: $dirname"
-              
-              # Create zip file
               (cd "$SPECS_DIR" && zip -r "$OUTPUT_DIR/${dirname}.zip" "$dirname")
             fi
           done
           
-          # List created zip files
           echo "Created zip files:"
           ls -la "$OUTPUT_DIR/"
 
@@ -51,3 +45,17 @@ jobs:
           name: specs-packages
           path: packaged-specs/*.zip
           retention-days: 30
+
+      - name: Deploy to SIT01
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          apt-get update && apt-get install -y openssh-client rsync
+          ARTIFACTS_DIR="/data/asdm-deploy/artifacts"
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/specs"
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -p $SSH_PORT" packaged-specs/ $SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/specs/
+          echo "Deployed specs to SIT01"
