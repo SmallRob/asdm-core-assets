@@ -61,11 +61,15 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
         run: |
-          # Install SSH client
-          apt-get update && apt-get install -y openssh-client rsync
+          set -e
+
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
           
           # Remote paths
           ARTIFACTS_DIR="/data/asdm-deploy/artifacts"
+
+          echo "Using SSH port: $PORT"
           
           # Create remote directory
           sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/toolsets"
