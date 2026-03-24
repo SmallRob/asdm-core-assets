@@ -24,6 +24,212 @@ Before executing any tasks, you must detect and use the current environment's re
 
 **IMPORTANT**: The language detection is the FIRST step before any task execution. All interactions must consistently use the detected language throughout the entire process.
 
+## Skill Execution
+
+This section guides the AI model to execute code generation using skills from the skills registry. It supports both **automatic skill detection** based on user requests and **manual skill selection** via parameters.
+
+### 1. Skills Registry (Single Source of Truth)
+
+**CRITICAL**: The skills registry `.asdm/skills/skills-registry.json` is the **single source of truth** for all skill information. When a new skill is added, only the registry needs to be updated - this document provides the generic workflow.
+
+The registry contains:
+- Skill ID and metadata
+- Tech stack information (language, framework, orm)
+- Parameter definitions
+- Related specs references
+- **Aliases** for matching and detection
+
+**Registry Structure**:
+```json
+{
+  "skills": [
+    {
+      "id": "skill-id",
+      "name": "Skill Name",
+      "description": "...",
+      "path": "skill-id",
+      "entryPoint": "skill-id/SKILL.md",
+      "techStack": { "language": "...", "framework": "..." },
+      "specs": ["spec-id-1", "spec-id-2"],
+      "parameters": { ... },
+      "aliases": ["alias1", "alias2", "keyword1"],
+      ...
+    }
+  ]
+}
+```
+
+### 2. Dynamic Skill Loading
+
+The system dynamically reads the registry to find the appropriate skill. **No hardcoded mappings exist in this document** - all skill discovery happens at runtime.
+
+#### Step 1: Load Skills Registry
+
+Always start by reading the registry file:
+```bash
+# Read skills-registry.json
+.cat .asdm/skills/skills-registry.json
+```
+
+#### Step 2: Match Skill by Aliases
+
+Iterate through `.skills[].aliases` to find matching skill:
+- Match against `--tech-stack` parameter (if provided)
+- Match against request keywords (for automatic detection)
+
+### 3. Skill Selection Strategy
+
+The system supports two approaches for selecting the appropriate skill:
+
+#### Approach A: Manual Selection (Priority)
+
+If user provides `--tech-stack` or `-t` parameter, match it against skills' aliases:
+
+```bash
+# Manual skill selection
+/asdm-prd-execution --tech-stack java-springboot --entity User
+/asdm-prd-execution --tech-stack dotnet --entity Product
+/asdm-prd-execution --tech-stack sql --entity User
+```
+
+**Matching Logic**:
+1. Read `.skills[].aliases` from registry
+2. Find skill where aliases array contains the `--tech-stack` value
+3. If exact match not found, use case-insensitive partial match
+
+#### Approach B: Automatic Detection
+
+If no tech-stack is specified, analyze the user's request to automatically detect the required skill:
+
+**Step 1: Analyze Request Keywords**
+- Match request content against **all skills' aliases** from registry
+- Find skill with highest relevance (most keyword matches)
+- Examples:
+  - "sql", "ddl", "建表" → matches `sql-ddl` skill (aliases: sql, ddl, postgresql, mysql, etc.)
+  - "crud", "增删改查" → matches CRUD skills based on project context
+
+**Step 2: Detect from Project Context**
+If request analysis is inconclusive, detect from project files:
+- Check `package.json` → Determine frontend framework
+- Check `pom.xml` → Java/Spring Boot
+- Check `go.mod` → Go
+- Check `requirements.txt` / `pyproject.toml` → Python
+- Match detected tech against skills' `techStack` and `aliases`
+
+**Step 3: Fallback**
+If both approaches fail, present available skills from registry and ask user to specify.
+
+### 4. Execute Skill
+
+After selecting the skill from registry, follow these steps:
+
+**Step 1: Read Skill Metadata**
+From matched skill in registry:
+- Get `path` → skill directory
+- Get `entryPoint` → SKILL.md path
+- Get `specs[]` → referenced spec IDs
+- Get `parameters` → required/optional parameters
+
+**Step 2: Read Referenced Specs**
+If the skill references specs, read them first:
+```
+.skills[].specs[] → .asdm/specs/{spec-id}/
+```
+
+**Step 3: Read Skill Definition**
+- Read `.asdm/skills/{skill-id}/SKILL.md`
+- Understand the workflow and parameters
+- Check `parameters` section for required inputs
+
+**Step 4: Execute Generator Script**
+Run the skill's generator script (typically in `scripts/` directory):
+```bash
+# Generic pattern - script name may vary per skill
+bash .asdm/skills/{skill-path}/scripts/generate-<type>.sh <params...>
+```
+
+**Step 5: Apply Specs to Generated Code**
+After generation, verify the code follows the referenced specs:
+- Naming conventions
+- Code style
+- Best practices
+
+### 5. Parameters
+
+When executing, accept these parameters:
+
+| Parameter | Alias | Description | Required |
+|-----------|-------|-------------|----------|
+| `--tech-stack` | `-t` | Skill/tech stack to use (matches registry aliases) | No |
+| `--entity` | `-e` | Entity name for generation | Yes |
+| `--output-dir` | `-o` | Output directory | No |
+| `--database-type` | `-d` | Database type (skill-specific) | No |
+
+**Example Commands**:
+```
+# Manual skill selection (value matches skill aliases)
+/asdm-prd-execution --tech-stack java-springboot --entity User
+/asdm-prd-execution --tech-stack dotnet --entity Product
+/asdm-prd-execution --tech-stack sql --entity User
+/asdm-prd-execution --tech-stack sql --entity Product --database-type mysql
+
+# Automatic detection (no --tech-stack specified)
+/asdm-prd-execution --entity User --output-dir ./src
+```
+
+### 6. Skill Execution Flow
+
+```
+User Request
+    ↓
+[1] Load skills-registry.json
+    ↓
+[2] Manual: --tech-stack specified?
+    ↓ Yes → Match against .skills[].aliases
+    ↓ No
+[3] Automatic: Match request keywords against all .skills[].aliases
+    ↓
+[4] Detect from Project Context → Match against .skills[].techStack
+    ↓
+[5] Found skill? → Get path, entryPoint, specs, parameters
+    ↓ No → Ask user to specify --tech-stack
+[6] Load SKILL.md and Referenced Specs
+    ↓
+[7] Execute Skill's Generator Script
+    ↓
+[8] Verify Generated Code Follows Specs
+    ↓
+[9] Report Results (notify which skill was used)
+```
+
+### 7. Adding New Skills
+
+When a new skill is added to the system:
+
+1. **Create skill directory**: `.asdm/skills/{new-skill-id}/`
+2. **Add SKILL.md**: Define workflow, parameters, usage
+3. **Add generator script**: `scripts/generate-*.sh`
+4. **Register in registry**: Add entry to `.asdm/skills/skills-registry.json`:
+   ```json
+   {
+     "id": "new-skill-id",
+     "path": "new-skill-id",
+     "entryPoint": "new-skill-id/SKILL.md",
+     "aliases": ["alias1", "keyword1", "keyword2"],
+     "techStack": { "language": "..." },
+     "parameters": { ... },
+     "specs": []
+   }
+   ```
+5. **Done**: The skill is immediately available - no other files need modification!
+
+**IMPORTANT**:
+1. **Registry is single source of truth** - Always read registry first, never hardcode skill mappings
+2. **Manual parameter takes priority** - If user specifies `--tech-stack`, match against aliases
+3. **Automatic detection uses aliases** - Match request keywords against all skills' aliases from registry
+4. **Notify the user which skill is being used** - "Using {skill-name} skill (matched alias: {keyword})"
+5. **Dynamic script execution** - Script name/path may vary per skill; read SKILL.md to determine correct script
+
 ## Context Loading
 
 Before executing tasks, the AI model must load the feature context from the feature directory. This ensures that task execution aligns with the feature requirements and specifications.

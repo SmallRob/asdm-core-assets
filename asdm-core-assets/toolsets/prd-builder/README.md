@@ -40,6 +40,53 @@ Main features of PRD Builder:
 - Update the task plan (`.asdm/workspace/features/<feature-id>-<feature-name>/task-list.md`) with the current status of each task
 - If user is not specifying the task ID, the toolset should prompt the user to select a task from the task plan, when prompting the user, the toolset should show the task ID and task name and the current status of each task so user is clear about what task to execute
 
+## Skill Execution
+
+PRD Builder supports code generation using Skills. Skills are dynamically loaded executable modules.
+
+### Skills Registry
+
+All available skills are registered in `.asdm/skills/skills-registry.json`. The registry contains:
+- Skill ID and metadata
+- Tech stack information (language, framework, orm)
+- Parameter definitions
+- Related specs references
+- Aliases for matching
+
+### Supported Skills
+
+| Skill ID | Name | Tech Stack |
+|----------|------|------------|
+| java-springboot-crud | Java Spring Boot CRUD Generator | Java 17+, Spring Boot 3.x |
+| dotnet-crud | .NET CRUD Generator | C#, ASP.NET Core, EF Core |
+| go-crud | Go CRUD Generator | Go, Gin, GORM |
+| python-fastapi-crud | Python FastAPI CRUD Generator | Python, FastAPI, SQLAlchemy |
+| sql-ddl | SQL DDL Generator | SQL (PostgreSQL, MySQL, SQLite, MSSQL) |
+
+### Skill Selection
+
+**Manual Selection**:
+```bash
+/asdm-prd-execution --tech-stack java-springboot --entity User
+/asdm-prd-execution --tech-stack sql --entity User
+```
+
+**Automatic Detection**:
+- Auto-detect based on user request keywords
+- Detect from project files (package.json, pom.xml, go.mod, etc.)
+
+See [asdm-prd-execution.md](./actions/asdm-prd-execution.md) for details.
+
+### Adding New Skills
+
+To add a new skill:
+1. Create skill directory `.asdm/skills/{new-skill-id}/`
+2. Add SKILL.md to define workflow and parameters
+3. Add generator script `scripts/generate-*.sh`
+4. Register in `.asdm/skills/skills-registry.json`
+
+New skills become available automatically without modifying other files!
+
 ## Toolset Installation Process
 
 `INSTALL.md` will setup the toolset with the following steps:
@@ -62,19 +109,27 @@ The PRD Builder toolset has the following structure:
 
 ```
 .asdm/
-└── toolsets/
-    └── prd-builder/                        ## PRD Builder toolset
-        ├── INSTALL.md                      ## Installation instructions for the toolset
-        ├── README.md                       ## Current document
-        └── actions/                        ## Instructions for PRD Builder
-            ├── asdm-prd-planning           ## Instruction for planning tasks for a workspace
-            ├── asdm-prd-breakdown          ## Instruction for breaking down tasks for a workspace
-            └── asdm-prd-execution          ## Instruction for executing tasks for a workspace
-        └── spec/                           ## Spec documents for PRD Builder
-            ├── feature-prd-spec.md         ## Spec document for feature PRD
-            ├── task-prd-spec.md            ## Spec document for task PRD
-            ├── feature-list.md             ## Spec document for feature list
-            └── task-list.md                ## Spec document for task list
+├── toolsets/
+│   └── prd-builder/                        ## PRD Builder toolset
+│       ├── INSTALL.md                      ## Installation instructions for the toolset
+│       ├── README.md                       ## English documentation
+│       ├── README.zh.md                    ## Chinese documentation
+│       └── actions/                        ## Instructions for PRD Builder
+│           ├── asdm-prd-planning           ## Instruction for planning tasks for a workspace
+│           ├── asdm-prd-breakdown          ## Instruction for breaking down tasks for a workspace
+│           └── asdm-prd-execution          ## Instruction for executing tasks for a workspace
+│       └── spec/                           ## Spec documents for PRD Builder
+│           ├── feature-prd-spec.md         ## Spec document for feature PRD
+│           ├── task-prd-spec.md            ## Spec document for task PRD
+│           ├── feature-list.md             ## Spec document for feature list
+│           └── task-list.md                ## Spec document for task list
+└── skills/                                 ## Skills for code generation
+    ├── skills-registry.json                ## Skills registry
+    ├── java-springboot-crud/               ## Java Spring Boot CRUD skill
+    ├── dotnet-crud/                        ## .NET CRUD skill
+    ├── go-crud/                           ## Go CRUD skill
+    ├── python-fastapi-crud/                ## Python FastAPI CRUD skill
+    └── sql-ddl/                           ## SQL DDL skill
 ```
 
 ## Toolset Workspace

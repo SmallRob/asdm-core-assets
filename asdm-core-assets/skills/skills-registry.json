@@ -14,28 +14,10 @@
       "downloadUrl": "pptx.zip",
       "path": "pptx",
       "entryPoint": "pptx/SKILL.md",
-      "license": "Proprietary",
       "dateCreated": "2026-03-18T00:00:00Z",
       "dateUpdated": "2026-03-18T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform",
-      "capabilities": [
-        "Create presentations from scratch",
-        "Edit existing presentations",
-        "Work with presentation templates",
-        "Convert HTML to PowerPoint",
-        "Extract and analyze content",
-        "Manipulate Office Open XML",
-        "Generate thumbnail grids",
-        "Text inventory extraction"
-      ],
-      "scripts": [
-        "html2pptx.js",
-        "inventory.py",
-        "rearrange.py",
-        "replace.py",
-        "thumbnail.py"
-      ]
+      "updatedBy": "ASDM Platform"
     },
     {
       "id": "pdf-official",
@@ -46,32 +28,94 @@
       "downloadUrl": "pdf-official.zip",
       "path": "pdf-official",
       "entryPoint": "pdf-official/SKILL.md",
-      "license": "Proprietary",
       "dateCreated": "2026-03-18T00:00:00Z",
       "dateUpdated": "2026-03-18T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform",
-      "capabilities": [
-        "Extract text with layout preservation",
-        "Extract tables with structured data",
-        "Create PDFs from scratch",
-        "Merge and split PDF documents",
-        "Fill PDF forms (fillable and non-fillable)",
-        "Add watermarks and annotations",
-        "Password protection and encryption",
-        "OCR for scanned PDFs",
-        "Visual form analysis",
-        "Batch processing"
-      ],
-      "scripts": [
-        "check_fillable_fields.py",
-        "extract_form_field_info.py",
-        "convert_pdf_to_images.py",
-        "create_validation_image.py",
-        "check_bounding_boxes.py",
-        "fill_fillable_fields.py",
-        "fill_pdf_form_with_annotations.py"
-      ]
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "java-springboot-crud",
+      "guid": "b4c5d6e7-f8a9-0123-4567-89abcdef0124",
+      "name": "Java Spring Boot CRUD Generator",
+      "description": "Generate Java Spring Boot CRUD operations with Spring Data JPA. Includes Entity, Repository, Service, Controller, DTO, and Mapper templates.",
+      "version": "1.0.0",
+      "downloadUrl": "java-springboot-crud.zip",
+      "path": "java-springboot-crud",
+      "entryPoint": "java-springboot-crud/SKILL.md",
+      "dateCreated": "2026-03-19T00:00:00Z",
+      "dateUpdated": "2026-03-19T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "dotnet-crud",
+      "guid": "c5d6e7f8-a9b0-1234-5678-9abcdef01235",
+      "name": ".NET CRUD Generator",
+      "description": "Generate .NET CRUD operations using Entity Framework Core with ASP.NET Core. Includes Models, DTOs, Services, Controllers, and DbContext templates.",
+      "version": "1.0.0",
+      "downloadUrl": "dotnet-crud.zip",
+      "path": "dotnet-crud",
+      "entryPoint": "dotnet-crud/SKILL.md",
+      "dateCreated": "2026-03-19T00:00:00Z",
+      "dateUpdated": "2026-03-19T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "go-crud",
+      "guid": "d6e7f8a9-b0c1-2345-6789-abcdef012346",
+      "name": "Go CRUD Generator",
+      "description": "Generate Go CRUD operations using Gin framework and GORM. Includes Models, DTOs, Repository, Service, and Handler templates.",
+      "version": "1.0.0",
+      "downloadUrl": "go-crud.zip",
+      "path": "go-crud",
+      "entryPoint": "go-crud/SKILL.md",
+      "dateCreated": "2026-03-19T00:00:00Z",
+      "dateUpdated": "2026-03-19T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "python-fastapi-crud",
+      "guid": "e7f8a9b0-c1d2-3456-789a-bcdef012347",
+      "name": "Python FastAPI CRUD Generator",
+      "description": "Generate Python CRUD operations using FastAPI and SQLAlchemy. Includes Models, Schemas, CRUD operations, and API Router templates.",
+      "version": "1.0.0",
+      "downloadUrl": "python-fastapi-crud.zip",
+      "path": "python-fastapi-crud",
+      "entryPoint": "python-fastapi-crud/SKILL.md",
+      "dateCreated": "2026-03-19T00:00:00Z",
+      "dateUpdated": "2026-03-19T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "sql-ddl",
+      "guid": "f8a9b0c1-d2e3-4567-89ab-cdef012348",
+      "name": "SQL DDL Generator",
+      "description": "Generate SQL DDL scripts for various database systems. Supports PostgreSQL, MySQL, SQLite, and SQL Server with proper constraints, indexes, and naming conventions.",
+      "version": "1.0.0",
+      "downloadUrl": "sql-ddl.zip",
+      "path": "sql-ddl",
+      "entryPoint": "sql-ddl/SKILL.md",
+      "dateCreated": "2026-03-19T00:00:00Z",
+      "dateUpdated": "2026-03-19T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "report-development",
+      "guid": "a9b0c1d2-e3f4-5678-9abc-def012349",
+      "name": "Report Development Generator",
+      "description": "Generate report templates and implementations for various platforms and formats. Supports data tables, charts, PDF exports, Excel exports, and professional report solutions.",
+      "version": "1.0.0",
+      "downloadUrl": "report-development.zip",
+      "path": "report-development",
+      "entryPoint": "report-development/SKILL.md",
+      "dateCreated": "2026-03-20T00:00:00Z",
+      "dateUpdated": "2026-03-20T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
     }
   ]
 }
