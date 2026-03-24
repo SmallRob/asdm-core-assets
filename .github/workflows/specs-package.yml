@@ -63,7 +63,7 @@ jobs:
           # 防止端口异常
           PORT=${SSH_PORT:-22}
       
-          ARTIFACTS_DIR="/data/asdm-deploy/artifacts"
+          ARTIFACTS_DIR="/data/artifacts"
       
           echo "Using SSH port: $PORT"
       
@@ -81,3 +81,75 @@ jobs:
             "$SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/specs/"
       
           echo "Deployed specs to SIT01"
+
+      - name: Deploy to DT01
+        if: github.ref == 'refs/heads/main'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_DT }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          set -e
+      
+          # 安装依赖（必须 sudo）
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
+      
+          # 防止端口异常
+          PORT=${SSH_PORT:-22}
+      
+          ARTIFACTS_DIR="/data/artifacts"
+      
+          echo "Using SSH port: $PORT"
+      
+          # 创建目录
+          sshpass -p "$SSH_PASSWORD" ssh \
+            -o StrictHostKeyChecking=no \
+            -p "$PORT" \
+            "$SSH_USER@$SSH_HOST" \
+            "mkdir -p $ARTIFACTS_DIR/specs"
+      
+          # 同步文件
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+            packaged-specs/ \
+            "$SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/specs/"
+      
+          echo "Deployed specs to DT01"
+
+      - name: Deploy to PROD
+        if: github.ref == 'refs/heads/main'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_PROD }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          set -e
+      
+          # 安装依赖（必须 sudo）
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
+      
+          # 防止端口异常
+          PORT=${SSH_PORT:-22}
+      
+          ARTIFACTS_DIR="/data/artifacts"
+      
+          echo "Using SSH port: $PORT"
+      
+          # 创建目录
+          sshpass -p "$SSH_PASSWORD" ssh \
+            -o StrictHostKeyChecking=no \
+            -p "$PORT" \
+            "$SSH_USER@$SSH_HOST" \
+            "mkdir -p $ARTIFACTS_DIR/specs"
+      
+          # 同步文件
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+            packaged-specs/ \
+            "$SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/specs/"
+      
+          echo "Deployed specs to PROD"
