@@ -51,3 +51,91 @@ jobs:
           name: skills-packages
           path: packaged-skills/*.zip
           retention-days: 30
+
+      # Deploy to SIT01 environment
+      - name: Deploy to SIT01
+        if: github.ref == 'refs/heads/main'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          set -e
+
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
+          
+          # Remote paths
+          ARTIFACTS_DIR="/data/artifacts"
+
+          echo "Using SSH port: $PORT"
+          
+          # Create remote directory
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/skills"
+            
+          # Upload files
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
+            packaged-skills/ \
+            $SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/skills/
+          
+          echo "Deployed toolsets to SIT01 successfully"
+
+      - name: Deploy to DT01
+        if: github.ref == 'refs/heads/main'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_DT }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          set -e
+
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
+          
+          # Remote paths
+          ARTIFACTS_DIR="/data/artifacts"
+
+          echo "Using SSH port: $PORT"
+          
+          # Create remote directory
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/packaged-skills"
+            
+          # Upload files
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
+            packaged-skills/ \
+            $SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/skills/
+          
+          echo "Deployed toolsets to DT01 successfully"
+
+      - name: Deploy to PROD
+        if: github.ref == 'refs/heads/main'
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST_PROD }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          set -e
+
+          sudo apt-get update
+          sudo apt-get install -y openssh-client rsync sshpass
+          
+          # Remote paths
+          ARTIFACTS_DIR="/data/artifacts"
+
+          echo "Using SSH port: $PORT"
+          
+          # Create remote directory
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p $SSH_PORT $SSH_USER@$SSH_HOST "mkdir -p $ARTIFACTS_DIR/skills"
+            
+          # Upload files
+          sshpass -p "$SSH_PASSWORD" rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
+            packaged-skills/ \
+            $SSH_USER@$SSH_HOST:$ARTIFACTS_DIR/skills/
+          
+          echo "Deployed toolsets to PROD successfully"
