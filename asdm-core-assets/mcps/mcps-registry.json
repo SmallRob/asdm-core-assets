@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "dateCreated": "2026-03-24T00:00:00Z",
+  "dateUpdated": "2026-03-24T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform",
+  "mcps": [
+    {
+      "id": "filesystem-mcp-server",
+      "guid": "f1a2b3c4-d5e6-7890-abcd-ef1234567890",
+      "name": "Filesystem MCP Server",
+      "description": "Node.js MCP server for comprehensive filesystem operations - read/write files, manage directories, search files, and get file metadata with configurable access control",
+      "version": "2026.1.14",
+      "downloadUrl": "filesystem-mcp-server.zip",
+      "path": "filesystem-mcp-server",
+      "entryPoint": "filesystem-mcp-server/README.md",
+      "dateCreated": "2026-03-24T00:00:00Z",
+      "dateUpdated": "2026-03-24T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"  
+    },
+    {
+      "id": "excel-mcp-server",
+      "guid": "a1b2c3d4-e5f6-7890-abcd-ef1234567891",
+      "name": "Excel MCP Server",
+      "description": "Python MCP server for comprehensive Excel file manipulation without requiring Microsoft Excel - create workbooks, read/write data, format cells, create charts and pivot tables with support for stdio, SSE, and HTTP transports",
+      "version": "0.1.7",
+      "downloadUrl": "excel-mcp-server.zip",
+      "path": "excel-mcp-server",
+      "entryPoint": "excel-mcp-server/README.md",
+      "dateCreated": "2026-03-24T00:00:00Z",
+      "dateUpdated": "2026-03-24T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "mcp-timeserver",
+      "guid": "b2c3d4e5-f6a7-8901-bcde-f12345678902",
+      "name": "MCP Timeserver",
+      "description": "Python MCP server that provides current date/time information to LLMs via datetime:// URI scheme for timezone access and a tool interface for local time queries",
+      "version": "0.1.0",
+      "downloadUrl": "mcp-timeserver.zip",
+      "path": "mcp-timeserver",
+      "entryPoint": "mcp-timeserver/README.md",
+      "dateCreated": "2026-03-24T00:00:00Z",
+      "dateUpdated": "2026-03-24T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    },
+    {
+      "id": "tidb-mcp-server",
+      "guid": "c3d4e5f6-a7b8-9012-cdef-f23456789013",
+      "name": "TiDB MCP Server",
+      "description": "Python MCP server for TiDB Serverless database operations with connection pooling, transaction support, automatic retry logic, and comprehensive SQL query/execute capabilities",
+      "version": "0.1.0",
+      "downloadUrl": "tidb-mcp-server.zip",
+      "path": "tidb-mcp-server",
+      "entryPoint": "tidb-mcp-server/README.md",
+      "dateCreated": "2026-03-24T00:00:00Z",
+      "dateUpdated": "2026-03-24T00:00:00Z",
+      "createdBy": "ASDM Platform",
+      "updatedBy": "ASDM Platform"
+    }
+  ]
+}

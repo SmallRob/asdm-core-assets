@@ -1,0 +1,866 @@
+{
+  "name": "excel-mcp-server",
+  "description": "A Model Context Protocol server for comprehensive Excel file manipulation without requiring Microsoft Excel installation",
+  "version": "0.1.7",
+  "transport": "stdio",
+  "package": "excel-mcp-server",
+  "tools": [
+    {
+      "name": "create_workbook",
+      "description": "Create a new Excel workbook at the specified file path",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Absolute path where to create the workbook"
+          }
+        },
+        "required": ["filepath"]
+      },
+      "annotations": {
+        "title": "Create Workbook",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "create_worksheet",
+      "description": "Create a new worksheet in an existing workbook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name for the new worksheet"
+          }
+        },
+        "required": ["filepath", "sheet_name"]
+      },
+      "annotations": {
+        "title": "Create Worksheet",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "get_workbook_metadata",
+      "description": "Get metadata about workbook including sheets, ranges, and file information",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "include_ranges": {
+            "type": "boolean",
+            "description": "Whether to include range information",
+            "default": false
+          }
+        },
+        "required": ["filepath"]
+      },
+      "annotations": {
+        "title": "Get Workbook Metadata",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "read_data_from_excel",
+      "description": "Read data from Excel worksheet with cell metadata including validation rules",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name of worksheet"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell (default A1)",
+            "default": "A1"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell (optional)"
+          },
+          "preview_only": {
+            "type": "boolean",
+            "description": "Whether to return preview only",
+            "default": false
+          }
+        },
+        "required": ["filepath", "sheet_name"]
+      },
+      "annotations": {
+        "title": "Read Data from Excel",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "write_data_to_excel",
+      "description": "Write data to Excel worksheet from a list of lists",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name of worksheet to write to"
+          },
+          "data": {
+            "type": "array",
+            "description": "List of lists containing data to write",
+            "items": {
+              "type": "array"
+            }
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Cell to start writing to",
+            "default": "A1"
+          }
+        },
+        "required": ["filepath", "sheet_name", "data"]
+      },
+      "annotations": {
+        "title": "Write Data to Excel",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "format_range",
+      "description": "Apply formatting to a range of cells including font, colors, borders, alignment, and conditional formatting",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell of range"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell of range"
+          },
+          "bold": {
+            "type": "boolean",
+            "description": "Make text bold",
+            "default": false
+          },
+          "italic": {
+            "type": "boolean",
+            "description": "Make text italic",
+            "default": false
+          },
+          "underline": {
+            "type": "boolean",
+            "description": "Underline text",
+            "default": false
+          },
+          "font_size": {
+            "type": "integer",
+            "description": "Font size in points"
+          },
+          "font_color": {
+            "type": "string",
+            "description": "Font color (hex code)"
+          },
+          "bg_color": {
+            "type": "string",
+            "description": "Background color (hex code)"
+          },
+          "border_style": {
+            "type": "string",
+            "description": "Border style (thin, medium, thick, double)"
+          },
+          "border_color": {
+            "type": "string",
+            "description": "Border color (hex code)"
+          },
+          "number_format": {
+            "type": "string",
+            "description": "Excel number format string"
+          },
+          "alignment": {
+            "type": "string",
+            "description": "Text alignment (left, center, right, justify)"
+          },
+          "wrap_text": {
+            "type": "boolean",
+            "description": "Wrap text in cells",
+            "default": false
+          },
+          "merge_cells": {
+            "type": "boolean",
+            "description": "Merge the range",
+            "default": false
+          },
+          "protection": {
+            "type": "object",
+            "description": "Cell protection settings"
+          },
+          "conditional_format": {
+            "type": "object",
+            "description": "Conditional formatting rules"
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_cell"]
+      },
+      "annotations": {
+        "title": "Format Range",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "merge_cells",
+      "description": "Merge a range of cells into a single cell",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell of range"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell of range"
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_cell", "end_cell"]
+      },
+      "annotations": {
+        "title": "Merge Cells",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "unmerge_cells",
+      "description": "Unmerge a previously merged range of cells",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell of range"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell of range"
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_cell", "end_cell"]
+      },
+      "annotations": {
+        "title": "Unmerge Cells",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "get_merged_cells",
+      "description": "Get list of all merged cell ranges in a worksheet",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          }
+        },
+        "required": ["filepath", "sheet_name"]
+      },
+      "annotations": {
+        "title": "Get Merged Cells",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "apply_formula",
+      "description": "Apply an Excel formula to a cell with syntax validation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "cell": {
+            "type": "string",
+            "description": "Target cell reference"
+          },
+          "formula": {
+            "type": "string",
+            "description": "Excel formula to apply (with or without leading =)"
+          }
+        },
+        "required": ["filepath", "sheet_name", "cell", "formula"]
+      },
+      "annotations": {
+        "title": "Apply Formula",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "validate_formula_syntax",
+      "description": "Validate Excel formula syntax without applying it to a cell",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "cell": {
+            "type": "string",
+            "description": "Target cell reference"
+          },
+          "formula": {
+            "type": "string",
+            "description": "Excel formula to validate"
+          }
+        },
+        "required": ["filepath", "sheet_name", "cell", "formula"]
+      },
+      "annotations": {
+        "title": "Validate Formula Syntax",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "create_chart",
+      "description": "Create a chart in a worksheet (line, bar, pie, scatter, area)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "data_range": {
+            "type": "string",
+            "description": "Range containing chart data (e.g., 'A1:D10')"
+          },
+          "chart_type": {
+            "type": "string",
+            "description": "Type of chart (line, bar, pie, scatter, area)",
+            "enum": ["line", "bar", "pie", "scatter", "area"]
+          },
+          "target_cell": {
+            "type": "string",
+            "description": "Cell where to place chart"
+          },
+          "title": {
+            "type": "string",
+            "description": "Chart title"
+          },
+          "x_axis": {
+            "type": "string",
+            "description": "X-axis label"
+          },
+          "y_axis": {
+            "type": "string",
+            "description": "Y-axis label"
+          }
+        },
+        "required": ["filepath", "sheet_name", "data_range", "chart_type", "target_cell"]
+      },
+      "annotations": {
+        "title": "Create Chart",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "create_pivot_table",
+      "description": "Create a pivot table for data analysis with aggregation functions",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "data_range": {
+            "type": "string",
+            "description": "Range containing source data"
+          },
+          "rows": {
+            "type": "array",
+            "description": "Fields for row labels",
+            "items": {
+              "type": "string"
+            }
+          },
+          "values": {
+            "type": "array",
+            "description": "Fields for values",
+            "items": {
+              "type": "string"
+            }
+          },
+          "columns": {
+            "type": "array",
+            "description": "Fields for column labels",
+            "items": {
+              "type": "string"
+            }
+          },
+          "agg_func": {
+            "type": "string",
+            "description": "Aggregation function (sum, count, average, max, min)",
+            "enum": ["sum", "count", "average", "max", "min"],
+            "default": "sum"
+          }
+        },
+        "required": ["filepath", "sheet_name", "data_range", "rows", "values"]
+      },
+      "annotations": {
+        "title": "Create Pivot Table",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "create_table",
+      "description": "Create a native Excel table from a specified range of data",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name of worksheet"
+          },
+          "data_range": {
+            "type": "string",
+            "description": "Cell range for table (e.g., 'A1:D5')"
+          },
+          "table_name": {
+            "type": "string",
+            "description": "Unique name for table (optional)"
+          },
+          "table_style": {
+            "type": "string",
+            "description": "Visual style for table",
+            "default": "TableStyleMedium9"
+          }
+        },
+        "required": ["filepath", "sheet_name", "data_range"]
+      },
+      "annotations": {
+        "title": "Create Table",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "copy_worksheet",
+      "description": "Copy a worksheet within the same workbook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "source_sheet": {
+            "type": "string",
+            "description": "Name of sheet to copy"
+          },
+          "target_sheet": {
+            "type": "string",
+            "description": "Name for new sheet"
+          }
+        },
+        "required": ["filepath", "source_sheet", "target_sheet"]
+      },
+      "annotations": {
+        "title": "Copy Worksheet",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "delete_worksheet",
+      "description": "Delete a worksheet from the workbook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name of sheet to delete"
+          }
+        },
+        "required": ["filepath", "sheet_name"]
+      },
+      "annotations": {
+        "title": "Delete Worksheet",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "rename_worksheet",
+      "description": "Rename a worksheet in the workbook",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "old_name": {
+            "type": "string",
+            "description": "Current sheet name"
+          },
+          "new_name": {
+            "type": "string",
+            "description": "New sheet name"
+          }
+        },
+        "required": ["filepath", "old_name", "new_name"]
+      },
+      "annotations": {
+        "title": "Rename Worksheet",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "copy_range",
+      "description": "Copy a range of cells to another location",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Source worksheet name"
+          },
+          "source_start": {
+            "type": "string",
+            "description": "Starting cell of source range"
+          },
+          "source_end": {
+            "type": "string",
+            "description": "Ending cell of source range"
+          },
+          "target_start": {
+            "type": "string",
+            "description": "Starting cell for paste"
+          },
+          "target_sheet": {
+            "type": "string",
+            "description": "Target worksheet name (optional, uses source if not provided)"
+          }
+        },
+        "required": ["filepath", "sheet_name", "source_start", "source_end", "target_start"]
+      },
+      "annotations": {
+        "title": "Copy Range",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "delete_range",
+      "description": "Delete a range of cells and shift remaining cells up or left",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell of range"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell of range"
+          },
+          "shift_direction": {
+            "type": "string",
+            "description": "Direction to shift cells",
+            "enum": ["up", "left"],
+            "default": "up"
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_cell", "end_cell"]
+      },
+      "annotations": {
+        "title": "Delete Range",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "validate_excel_range",
+      "description": "Validate if a range exists and is properly formatted",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_cell": {
+            "type": "string",
+            "description": "Starting cell of range"
+          },
+          "end_cell": {
+            "type": "string",
+            "description": "Ending cell of range (optional)"
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_cell"]
+      },
+      "annotations": {
+        "title": "Validate Excel Range",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "get_data_validation_info",
+      "description": "Get all data validation rules in a worksheet",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Name of worksheet"
+          }
+        },
+        "required": ["filepath", "sheet_name"]
+      },
+      "annotations": {
+        "title": "Get Data Validation Info",
+        "readOnlyHint": true
+      }
+    },
+    {
+      "name": "insert_rows",
+      "description": "Insert one or more rows starting at the specified row",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_row": {
+            "type": "integer",
+            "description": "Row number where to start inserting (1-based)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of rows to insert",
+            "default": 1
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_row"]
+      },
+      "annotations": {
+        "title": "Insert Rows",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "insert_columns",
+      "description": "Insert one or more columns starting at the specified column",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_col": {
+            "type": "integer",
+            "description": "Column number where to start inserting (1-based)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of columns to insert",
+            "default": 1
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_col"]
+      },
+      "annotations": {
+        "title": "Insert Columns",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "delete_sheet_rows",
+      "description": "Delete one or more rows starting at the specified row",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_row": {
+            "type": "integer",
+            "description": "Row number where to start deleting (1-based)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of rows to delete",
+            "default": 1
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_row"]
+      },
+      "annotations": {
+        "title": "Delete Rows",
+        "destructiveHint": true
+      }
+    },
+    {
+      "name": "delete_sheet_columns",
+      "description": "Delete one or more columns starting at the specified column",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to Excel file"
+          },
+          "sheet_name": {
+            "type": "string",
+            "description": "Target worksheet name"
+          },
+          "start_col": {
+            "type": "integer",
+            "description": "Column number where to start deleting (1-based)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of columns to delete",
+            "default": 1
+          }
+        },
+        "required": ["filepath", "sheet_name", "start_col"]
+      },
+      "annotations": {
+        "title": "Delete Columns",
+        "destructiveHint": true
+      }
+    }
+  ],
+  "configTemplates": {
+    "claude_desktop": {
+      "mcpServers": {
+        "excel": {
+          "command": "uvx",
+          "args": ["excel-mcp-server", "stdio"]
+        }
+      }
+    },
+    "vscode": {
+      "mcp": {
+        "servers": {
+          "excel": {
+            "command": "uvx",
+            "args": ["excel-mcp-server", "stdio"]
+          }
+        }
+      }
+    },
+    "cursor": {
+      "mcpServers": {
+        "excel": {
+          "command": "uvx",
+          "args": ["excel-mcp-server", "stdio"]
+        }
+      }
+    },
+    "docker": {
+      "build": "FROM python:3.10-slim\nWORKDIR /app\nRUN pip install excel-mcp-server\nENV EXCEL_FILES_PATH=/data\nENV FASTMCP_PORT=8000\nEXPOSE 8000\nCMD [\"excel-mcp-server\", \"streamable-http\"]",
+      "run": "docker run -p 8000:8000 -v /path/to/excel_files:/data excel-mcp-server"
+    }
+  }
+}

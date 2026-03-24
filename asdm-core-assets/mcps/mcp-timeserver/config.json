@@ -1,0 +1,86 @@
+{
+  "name": "mcp-timeserver",
+  "description": "A simple MCP server that provides current date/time information with timezone support via datetime:// URI scheme and tool interface",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "package": {
+    "type": "python",
+    "name": "mcp-timeserver",
+    "command": "uvx",
+    "args": ["mcp-timeserver"]
+  },
+  "tools": [
+    {
+      "name": "get-current-time",
+      "description": "Get the current time in the configured local timezone",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "annotations": {
+        "title": "Get Current Time",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": false
+      }
+    }
+  ],
+  "resources": {
+    "scheme": "datetime",
+    "description": "Access current time for any timezone via datetime:// URI scheme",
+    "examples": [
+      "datetime://America/New_York/now",
+      "datetime://Europe/London/now",
+      "datetime://Asia/Shanghai/now",
+      "datetime://UTC/now"
+    ],
+    "mimeType": "text/plain"
+  },
+  "configTemplates": {
+    "claude_desktop": {
+      "mcpServers": {
+        "mcp-timeserver": {
+          "command": "uvx",
+          "args": ["mcp-timeserver"]
+        }
+      }
+    },
+    "vscode": {
+      "mcp.servers": {
+        "mcp-timeserver": {
+          "command": "uvx",
+          "args": ["mcp-timeserver"],
+          "type": "stdio"
+        }
+      }
+    },
+    "cursor": {
+      "mcpServers": {
+        "mcp-timeserver": {
+          "command": "uvx",
+          "args": ["mcp-timeserver"]
+        }
+      }
+    },
+    "docker": {
+      "note": "Docker deployment is not recommended for this lightweight stdio-based MCP server. Use uvx or pip installation instead.",
+      "alternative": "Use uvx mcp-timeserver for local deployment"
+    }
+  },
+  "requirements": {
+    "python": ">=3.12",
+    "dependencies": [
+      "mcp>=1.1.2",
+      "tzdata>=2024.2"
+    ]
+  },
+  "metadata": {
+    "author": "TerminalMan",
+    "email": "84923604+SecretiveShell@users.noreply.github.com",
+    "license": "MIT",
+    "repository": "https://github.com/SecretiveShell/MCP-timeserver",
+    "glamaUrl": "https://glama.ai/mcp/servers/tth5eto5n7"
+  }
+}

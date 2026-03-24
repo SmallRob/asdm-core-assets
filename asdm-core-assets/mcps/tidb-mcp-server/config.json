@@ -1,0 +1,368 @@
+{
+  "name": "tidb-mcp-server",
+  "description": "Model Context Protocol server for TiDB Serverless database operations with connection pooling, transaction support, and automatic retry logic",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "package": {
+    "type": "python",
+    "name": "mcp-server-tidb",
+    "manager": "uv",
+    "python_version": ">=3.13"
+  },
+  "tools": [
+    {
+      "name": "show_tables",
+      "description": "Show all tables in a specific database. Returns a list of table names in the specified database.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "db_name": {
+            "type": "string",
+            "description": "The name of the database to show tables from"
+          }
+        },
+        "required": ["db_name"]
+      },
+      "annotations": {
+        "readOnly": true,
+        "safe": true,
+        "category": "database-inspection",
+        "requiresConnection": true
+      }
+    },
+    {
+      "name": "db_query",
+      "description": "Execute SQL queries on TiDB database. Best practices: SQL is always a string, always add LIMIT in the query, always add ORDER BY in the query. Use TiDB syntax instead of MySQL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "db_name": {
+            "type": "string",
+            "description": "The name of the database to query"
+          },
+          "sql": {
+            "type": "string",
+            "description": "The SQL query string to execute (should include LIMIT and ORDER BY)"
+          }
+        },
+        "required": ["db_name", "sql"]
+      },
+      "annotations": {
+        "readOnly": true,
+        "safe": true,
+        "category": "database-query",
+        "requiresConnection": true,
+        "bestPractices": ["Always include LIMIT clause", "Always include ORDER BY clause", "Use TiDB-specific syntax"]
+      }
+    },
+    {
+      "name": "show_create_table",
+      "description": "Show the CREATE TABLE SQL statement for a specific table. Useful for understanding table structure and schema.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "db_name": {
+            "type": "string",
+            "description": "The name of the database"
+          },
+          "table": {
+            "type": "string",
+            "description": "The name of the table to show CREATE statement for"
+          }
+        },
+        "required": ["db_name", "table"]
+      },
+      "annotations": {
+        "readOnly": true,
+        "safe": true,
+        "category": "database-inspection",
+        "requiresConnection": true
+      }
+    },
+    {
+      "name": "db_execute",
+      "description": "Execute SQL statements on a specific database with transaction support. Best practices: SQL statements are always strings or list of strings, always use transactions for multiple statements. Use TiDB syntax instead of MySQL.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "db_name": {
+            "type": "string",
+            "description": "The name of the database"
+          },
+          "sql_stmts": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "A single SQL statement to execute"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "A list of SQL statements to execute in a transaction"
+              }
+            ],
+            "description": "One or more SQL statements to execute"
+          }
+        },
+        "required": ["db_name", "sql_stmts"]
+      },
+      "annotations": {
+        "readOnly": false,
+        "safe": false,
+        "category": "database-modification",
+        "requiresConnection": true,
+        "transactionSupport": true,
+        "bestPractices": ["Use transactions for multiple statements", "Validate SQL before execution", "Use TiDB-specific syntax"]
+      }
+    },
+    {
+      "name": "create_db_user",
+      "description": "Create a new database user with automatic username prefix handling. Returns the full username including the TiDB Serverless prefix.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The username for the new user (prefix will be added automatically)"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password for the new user",
+            "sensitive": true
+          }
+        },
+        "required": ["username", "password"]
+      },
+      "annotations": {
+        "readOnly": false,
+        "safe": false,
+        "category": "user-management",
+        "requiresConnection": true,
+        "requiresAdminPrivileges": true
+      }
+    },
+    {
+      "name": "remove_db_user",
+      "description": "Remove a database user from TiDB Serverless. Can accept username with or without prefix.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The username to remove (can be with or without prefix)"
+          }
+        },
+        "required": ["username"]
+      },
+      "annotations": {
+        "readOnly": false,
+        "safe": false,
+        "category": "user-management",
+        "requiresConnection": true,
+        "requiresAdminPrivileges": true,
+        "destructive": true
+      }
+    },
+    {
+      "name": "get_tidb_serverless_address",
+      "description": "Get the connection host and port for the TiDB Serverless instance. Returns the address in 'host:port' format.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "annotations": {
+        "readOnly": true,
+        "safe": true,
+        "category": "connection-info",
+        "requiresConnection": true
+      }
+    }
+  ],
+  "configTemplates": {
+    "claude_desktop": {
+      "name": "Claude Desktop",
+      "platform": "claude",
+      "configPath": {
+        "macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+        "windows": "%APPDATA%\\Claude\\claude_desktop_config.json",
+        "linux": "~/.config/Claude/claude_desktop_config.json"
+      },
+      "template": {
+        "mcpServers": {
+          "tidb": {
+            "command": "uv",
+            "args": [
+              "--directory",
+              "/path/to/mcp-server-tidb",
+              "run",
+              "src/main.py"
+            ],
+            "env": {
+              "TIDB_HOST": "${TIDB_HOST}",
+              "TIDB_PORT": "${TIDB_PORT}",
+              "TIDB_USERNAME": "${TIDB_USERNAME}",
+              "TIDB_PASSWORD": "${TIDB_PASSWORD}",
+              "TIDB_DATABASE": "${TIDB_DATABASE}"
+            }
+          }
+        }
+      }
+    },
+    "vscode": {
+      "name": "VS Code",
+      "platform": "vscode",
+      "configPath": {
+        "macos": "~/.vscode/settings.json",
+        "windows": "%APPDATA%\\Code\\User\\settings.json",
+        "linux": "~/.config/Code/User/settings.json"
+      },
+      "template": {
+        "mcp.servers": {
+          "tidb": {
+            "command": "uv",
+            "args": [
+              "--directory",
+              "/path/to/mcp-server-tidb",
+              "run",
+              "src/main.py"
+            ],
+            "env": {
+              "TIDB_HOST": "${TIDB_HOST}",
+              "TIDB_PORT": "${TIDB_PORT}",
+              "TIDB_USERNAME": "${TIDB_USERNAME}",
+              "TIDB_PASSWORD": "${TIDB_PASSWORD}",
+              "TIDB_DATABASE": "${TIDB_DATABASE}"
+            }
+          }
+        }
+      }
+    },
+    "cursor": {
+      "name": "Cursor",
+      "platform": "cursor",
+      "configPath": {
+        "macos": "~/.cursor/mcp_config.json",
+        "windows": "%APPDATA%\\Cursor\\mcp_config.json",
+        "linux": "~/.config/cursor/mcp_config.json"
+      },
+      "template": {
+        "mcpServers": {
+          "tidb": {
+            "command": "uv",
+            "args": [
+              "--directory",
+              "/path/to/mcp-server-tidb",
+              "run",
+              "src/main.py"
+            ],
+            "env": {
+              "TIDB_HOST": "${TIDB_HOST}",
+              "TIDB_PORT": "${TIDB_PORT}",
+              "TIDB_USERNAME": "${TIDB_USERNAME}",
+              "TIDB_PASSWORD": "${TIDB_PASSWORD}",
+              "TIDB_DATABASE": "${TIDB_DATABASE}"
+            }
+          }
+        }
+      }
+    },
+    "docker": {
+      "name": "Docker",
+      "platform": "docker",
+      "template": {
+        "dockerfile": "FROM python:3.13-slim\nWORKDIR /app\nRUN pip install uv\nCOPY . .\nRUN uv pip install --system -e .\nENV TIDB_HOST=${TIDB_HOST}\nENV TIDB_PORT=${TIDB_PORT}\nENV TIDB_USERNAME=${TIDB_USERNAME}\nENV TIDB_PASSWORD=${TIDB_PASSWORD}\nENV TIDB_DATABASE=${TIDB_DATABASE}\nCMD [\"python\", \"src/main.py\"]",
+        "dockerCompose": "version: '3.8'\nservices:\n  tidb-mcp-server:\n    build: .\n    container_name: tidb-mcp-server\n    environment:\n      - TIDB_HOST=${TIDB_HOST}\n      - TIDB_PORT=${TIDB_PORT}\n      - TIDB_USERNAME=${TIDB_USERNAME}\n      - TIDB_PASSWORD=${TIDB_PASSWORD}\n      - TIDB_DATABASE=${TIDB_DATABASE}\n    restart: unless-stopped"
+      }
+    }
+  },
+  "environmentVariables": {
+    "required": [
+      {
+        "name": "TIDB_HOST",
+        "description": "TiDB Serverless host address",
+        "example": "gateway01.us-east-1.prod.aws.tidbcloud.com"
+      },
+      {
+        "name": "TIDB_PORT",
+        "description": "TiDB Serverless port",
+        "example": "4000",
+        "default": "4000"
+      },
+      {
+        "name": "TIDB_USERNAME",
+        "description": "Database username with prefix",
+        "example": "xxxxxxxxxx.root"
+      },
+      {
+        "name": "TIDB_PASSWORD",
+        "description": "Database password",
+        "sensitive": true
+      },
+      {
+        "name": "TIDB_DATABASE",
+        "description": "Database name",
+        "example": "test",
+        "default": "test"
+      }
+    ],
+    "optional": [
+      {
+        "name": "SSL_CERT_PATH",
+        "description": "SSL certificate path for secure connections",
+        "platform": {
+          "macos": "/private/etc/ssl/cert.pem",
+          "linux": "/etc/ssl/certs/ca-certificates.crt"
+        }
+      }
+    ]
+  },
+  "connectionPool": {
+    "minConnections": 10,
+    "maxConnections": 100,
+    "timeout": 10.0,
+    "retryAttempts": 5,
+    "backoffStrategy": "exponential"
+  },
+  "features": [
+    "Connection pooling with automatic management",
+    "Transaction support with auto-rollback",
+    "Exponential backoff retry logic",
+    "SSL/TLS encryption for all connections",
+    "TiDB-specific SQL syntax support",
+    "Thread-safe operations",
+    "Automatic connection validation"
+  ],
+  "requirements": {
+    "python": ">=3.13",
+    "dependencies": [
+      "mcp[cli]>=1.3.0",
+      "pydantic>=2.10.6",
+      "pymysql>=1.1.1",
+      "python-dotenv>=1.0.1"
+    ]
+  },
+  "metadata": {
+    "author": "c4pt0r",
+    "repository": "https://github.com/c4pt0r/mcp-server-tidb",
+    "license": "Apache-2.0",
+    "keywords": [
+      "mcp",
+      "tidb",
+      "tidb-serverless",
+      "database",
+      "mysql",
+      "sql",
+      "connection-pool",
+      "transaction",
+      "python"
+    ],
+    "categories": [
+      "database",
+      "server",
+      "data-access"
+    ]
+  }
+}
