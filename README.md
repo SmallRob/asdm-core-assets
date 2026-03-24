@@ -38,6 +38,21 @@ asdm-core-assets/
 │   │       ├── reactjs-coding-standard.md
 │   │       ├── reactjs-performance-guidelines.md
 │   │       └── reactjs-testing-guidelines.md
+│   ├── skills/                # 技能目录
+│   │   ├── skills-registry.json     # 技能注册表文件
+│   │   ├── pdf-official/            # PDF处理技能
+│   │   │   ├── README.md
+│   │   │   ├── SKILL.md
+│   │   │   ├── reference.md
+│   │   │   ├── forms.md
+│   │   │   └── scripts/             # 自动化脚本目录
+│   │   └── pptx/                    # PPT演示文稿技能
+│   │       ├── README.md
+│   │       ├── SKILL.md
+│   │       ├── html2pptx.md
+│   │       ├── ooxml.md
+│   │       ├── scripts/             # 功能脚本目录
+│   │       └── ooxml/              # Office Open XML资源
 │   └── contexts/              # 上下文存储
 │       ├── contexts-registry.json
 │       └── {context-space-guid}/
@@ -62,6 +77,19 @@ Available toolsets:
 - `context-builder`: Build context from workspaces
 - `spec-builder-agile-standard`: Generate Agile documentation
 
+### Skills
+
+Skills provide specialized capabilities for AI coding assistants. Each skill includes:
+
+- **SKILL.md**: Main skill documentation with comprehensive workflows
+- **Scripts**: Automation scripts and tools for specific tasks
+- **Documentation**: Supporting documentation for detailed usage
+- **Examples**: Code examples and best practices
+
+Available skills:
+- `pdf-official`: Comprehensive PDF manipulation toolkit for text extraction, table processing, form filling, and document operations
+- `pptx`: PowerPoint presentation capabilities for creating, editing, and converting presentations using HTML-to-PPTX and Office Open XML manipulation
+
 ### Specs
 
 General specifications (rules) for various technology stacks. These specs are automatically added by `asdm-bootstrapper` as needed.
@@ -74,8 +102,10 @@ Storage for all context spaces processed by ASDM, creating a unified repository 
 
 1. Browse the toolsets directory for available tools
 2. Check `toolsets-registry.json` for toolset information
-3. Review specs for coding standards and guidelines
-4. Use context spaces for AI-assisted development
+3. Review skills for specialized capabilities and workflows
+4. Check `skills-registry.json` for skill information
+5. Review specs for coding standards and guidelines
+6. Use context spaces for AI-assisted development
 
 ## Integration
 
