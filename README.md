@@ -18,6 +18,7 @@ README.md                     # ASDM核心存储库 总说明文件，当前文�
 │       ├── asdm-context-space-sync.yml       # 用于同步上下文注册表的workflow
 │       ├── skill-package.yml                 # Skills 自动打包workflow
 │       ├── specs-package.yml                 # Specs 自动打包workflow
+│       ├── mcp-package.yml                   # Mcp 自动打包workflow
 │       ├── toolsets-package.yml              # Toolsets 自动打包workflow
 │       ├── ANALYSIS_PROMPT.md                # 仓库分析提示文档
 │       ├── ANALYSIS_PROMPT_SpringBoot_API.md # Spring Boot API 分析提示文档
