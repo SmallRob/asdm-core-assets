@@ -16,7 +16,8 @@
       "dateCreated": "2026-03-17T00:00:00Z",
       "dateUpdated": "2026-03-17T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
+      "updatedBy": "ASDM Platform",
+      "command": "prototype-builder"
     },
     {
       "id": "basic-tools",
@@ -29,7 +30,8 @@
       "dateCreated": "2026-01-21T00:00:00Z",
       "dateUpdated": "2026-01-21T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
+      "updatedBy": "ASDM Platform",
+      "command": "basic-tools"
     },
     {
       "id": "context-builder",
@@ -42,7 +44,8 @@
       "dateCreated": "2026-02-19T00:00:00Z",
       "dateUpdated": "2026-02-19T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
+      "updatedBy": "ASDM Platform",
+      "command": "context-builder"
     },
     {
       "id": "prd-builder",
@@ -55,7 +58,8 @@
       "dateCreated": "2026-01-19T00:00:00Z",
       "dateUpdated": "2026-01-19T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
+      "updatedBy": "ASDM Platform",
+      "command": "prd-builder"
     },
     {
       "id": "sample-toolset",
@@ -68,7 +72,8 @@
       "dateCreated": "2026-02-19T00:00:00Z",
       "dateUpdated": "2026-02-19T00:00:00Z",
       "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
+      "updatedBy": "ASDM Platform",
+      "command": "sample-toolset"
     }
   ]
 }
