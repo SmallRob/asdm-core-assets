@@ -4,7 +4,7 @@
   "dateUpdated": "2026-04-21T00:00:00Z",
   "createdBy": "ASDM Platform",
   "updatedBy": "ASDM Platform",
-  "registry_ids": [
+  "mcps": [
     "kubernetes-mcp-server"
   ]
 }
