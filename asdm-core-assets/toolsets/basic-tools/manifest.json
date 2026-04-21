@@ -1,0 +1,15 @@
+{
+  "registry_id": "basic-tools",
+  "guid": "b8c9d0e1-f2a3-4567-8901-234567890123",
+  "name": "Basic Tools",
+  "description": "A set of basic tools for AI-assisted software development.",
+  "scenario": "general",
+  "version": "0.0.2",
+  "downloadUrl": "basic-tools.zip",
+  "path": null,
+  "entryPoint": "basic-tools/README.md",
+  "dateCreated": "2026-01-21T00:00:00Z",
+  "dateUpdated": "2026-01-21T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

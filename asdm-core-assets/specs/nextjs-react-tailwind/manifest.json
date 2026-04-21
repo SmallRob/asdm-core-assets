@@ -1,0 +1,15 @@
+{
+  "registry_id": "nextjs-react-tailwind",
+  "guid": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+  "name": "Next.js React Tailwind Development Specs",
+  "description": "Coding standards and best practices for Next.js with React, TypeScript, Tailwind CSS, and Shadcn UI",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "nextjs-react-tailwind.zip",
+  "path": "nextjs-react-tailwind",
+  "entryPoint": "nextjs-react-tailwind/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

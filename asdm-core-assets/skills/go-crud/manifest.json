@@ -1,0 +1,15 @@
+{
+  "registry_id": "go-crud",
+  "guid": "d6e7f8a9-b0c1-2345-6789-abcdef012346",
+  "name": "Go CRUD Generator",
+  "description": "Generate Go CRUD operations using Gin framework and GORM. Includes Models, DTOs, Repository, Service, and Handler templates.",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "go-crud.zip",
+  "path": "go-crud",
+  "entryPoint": "go-crud/SKILL.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

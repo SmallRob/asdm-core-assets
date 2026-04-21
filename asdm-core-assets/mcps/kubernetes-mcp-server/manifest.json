@@ -1,0 +1,15 @@
+{
+  "registry_id": "kubernetes-mcp-server",
+  "guid": "d4e5f6a7-b8c9-0123-defa-456789012345",
+  "name": "Kubernetes MCP Server",
+  "description": "TypeScript MCP server for comprehensive Kubernetes cluster management via kubectl - supports 22 tools for resource operations, Helm charts, port forwarding, node management, and OpenTelemetry observability with non-destructive mode and secrets masking",
+  "scenario": "devops",
+  "version": "3.3.0",
+  "downloadUrl": "kubernetes-mcp-server.zip",
+  "path": "kubernetes-mcp-server",
+  "entryPoint": "kubernetes-mcp-server/README.md",
+  "dateCreated": "2024-07-01T00:00:00Z",
+  "dateUpdated": "2026-03-25T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

@@ -1,0 +1,15 @@
+{
+  "registry_id": "vue3-composition-api",
+  "guid": "b8c9d0e1-f2a3-4567-2345-678901234567",
+  "name": "Vue 3 Composition API Development Specs",
+  "description": "Comprehensive guidelines for Vue 3 development using Composition API with TypeScript, including accessibility, performance, testing, and best practices",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "vue3-composition-api.zip",
+  "path": "vue3-composition-api",
+  "entryPoint": "vue3-composition-api/README.md",
+  "dateCreated": "2026-02-26T00:00:00Z",
+  "dateUpdated": "2026-02-26T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}
