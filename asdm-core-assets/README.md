@@ -23,6 +23,9 @@ Contains specialized skills (tools and workflows) for various development tasks.
 ### contexts/
 Stores all context spaces processed by ASDM, creating a unified repository that grows with community contributions.
 
+### mcps/
+Contains MCP (Model Context Protocol) servers that provide external tool integrations.
+
 ## Usage
 
 These assets are synchronized with the [ASDM Platform](https://platform.asdm.ai) and managed through the platform's UI for easy access and utilization.

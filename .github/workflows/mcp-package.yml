@@ -1,0 +1,53 @@
+name: Package MCPs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/mcps/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'asdm-core-assets/mcps/**'
+  workflow_dispatch:
+
+jobs:
+  package-mcps:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create zip files for each MCP
+        run: |
+          MCPS_DIR="asdm-core-assets/mcps"
+          OUTPUT_DIR="$GITHUB_WORKSPACE/packaged-mcps"
+          
+          # Create a directory to store zip files
+          mkdir -p "$OUTPUT_DIR"
+          
+          # Loop through each subdirectory in mcps
+          for dir in "$MCPS_DIR"/*/; do
+            if [ -d "$dir" ]; then
+              # Get the directory name
+              dirname=$(basename "$dir")
+              echo "Packaging MCP: $dirname"
+              
+              # Create zip file
+              (cd "$MCPS_DIR" && zip -r "$OUTPUT_DIR/${dirname}.zip" "$dirname")
+            fi
+          done
+          
+          # List created zip files
+          echo "Created zip files:"
+          ls -la "$OUTPUT_DIR/"
+
+      - name: Upload MCP artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcps-packages
+          path: packaged-mcps/*.zip
+          retention-days: 30

@@ -18,6 +18,7 @@ README.md                     # ASDM核心存储库 总说明文件，当前文�
 │       ├── asdm-context-space-sync.yml       # 用于同步上下文注册表的workflow
 │       ├── skill-package.yml                 # Skills 自动打包workflow
 │       ├── specs-package.yml                 # Specs 自动打包workflow
+│       ├── mcp-package.yml                   # Mcp 自动打包workflow
 │       ├── toolsets-package.yml              # Toolsets 自动打包workflow
 │       ├── ANALYSIS_PROMPT.md                # 仓库分析提示文档
 │       ├── ANALYSIS_PROMPT_SpringBoot_API.md # Spring Boot API 分析提示文档
@@ -59,6 +60,11 @@ asdm-core-assets/
 │   │       ├── ooxml.md
 │   │       ├── scripts/             # 功能脚本目录
 │   │       └── ooxml/              # Office Open XML资源
+│   ├── mcps/                  # MCP服务器资源目录
+│   │   ├── mcps-registry.json      # MCP注册表文件
+│   │   └── {mcp-server-id}/        # MCP服务器包
+│   │       ├── README.md           # 服务器概述文档
+│   │       └── config.json         # 默认配置模板
 │   └── contexts/              # 上下文存储
 │       ├── contexts-registry.json
 │       └── {context-space-guid}/
@@ -96,6 +102,15 @@ Available skills:
 - `pdf-official`: Comprehensive PDF manipulation toolkit for text extraction, table processing, form filling, and document operations
 - `pptx`: PowerPoint presentation capabilities for creating, editing, and converting presentations using HTML-to-PPTX and Office Open XML manipulation
 
+### MCPs
+
+MCP (Model Context Protocol) servers provide external tool integrations and data source connectors. Each MCP server includes:
+
+- **README.md**: Server overview and capabilities
+- **config.json**: Default configuration template with tool definitions
+
+Available MCP servers are tracked in `mcps-registry.json`.
+
 ### Specs
 
 General specifications (rules) for various technology stacks. These specs are automatically added by `asdm-bootstrapper` as needed.
@@ -110,8 +125,10 @@ Storage for all context spaces processed by ASDM, creating a unified repository 
 2. Check `toolsets-registry.json` for toolset information
 3. Review skills for specialized capabilities and workflows
 4. Check `skills-registry.json` for skill information
-5. Review specs for coding standards and guidelines
-6. Use context spaces for AI-assisted development
+5. Review MCP servers for external tool integrations
+6. Check `mcps-registry.json` for MCP server information
+7. Review specs for coding standards and guidelines
+8. Use context spaces for AI-assisted development
 
 ## Integration
 
