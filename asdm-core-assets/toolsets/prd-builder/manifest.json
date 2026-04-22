@@ -11,5 +11,11 @@
   "dateCreated": "2026-01-19T00:00:00Z",
   "dateUpdated": "2026-01-19T00:00:00Z",
   "createdBy": "ASDM Platform",
-  "updatedBy": "ASDM Platform"
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "asdm-prd-breakdown": "PRD任务分解",
+    "asdm-prd-execution": "PRD执行",
+    "asdm-prd-planning": "PRD规划"
+  }
 }

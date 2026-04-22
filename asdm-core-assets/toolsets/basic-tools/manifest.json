@@ -11,5 +11,11 @@
   "dateCreated": "2026-01-21T00:00:00Z",
   "dateUpdated": "2026-01-21T00:00:00Z",
   "createdBy": "ASDM Platform",
-  "updatedBy": "ASDM Platform"
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "asdm-git-commit-message": "Git提交信息生成",
+    "asdm-git-commit": "Git提交执行",
+    "asdm-start-project": "项目初始化"
+  }
 }

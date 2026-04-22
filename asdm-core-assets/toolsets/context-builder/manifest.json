@@ -11,5 +11,10 @@
   "dateCreated": "2026-02-19T00:00:00Z",
   "dateUpdated": "2026-02-19T00:00:00Z",
   "createdBy": "ASDM Platform",
-  "updatedBy": "ASDM Platform"
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "asdm-context-build": "构建上下文",
+    "asdm-context-update": "更新上下文"
+  }
 }

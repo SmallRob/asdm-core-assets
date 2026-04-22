@@ -11,5 +11,10 @@
   "dateCreated": "2026-03-17T00:00:00Z",
   "dateUpdated": "2026-03-17T00:00:00Z",
   "createdBy": "ASDM Platform",
-  "updatedBy": "ASDM Platform"
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "asdm-prototype-create": "创建原型",
+    "asdm-prototype-scaffold": "脚手架生成"
+  }
 }
