@@ -1,0 +1,15 @@
+{
+  "registry_id": "python-fastapi-crud",
+  "guid": "e7f8a9b0-c1d2-3456-789a-bcdef012347",
+  "name": "Python FastAPI CRUD Generator",
+  "description": "Generate Python CRUD operations using FastAPI and SQLAlchemy. Includes Models, Schemas, CRUD operations, and API Router templates.",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "python-fastapi-crud.zip",
+  "path": "python-fastapi-crud",
+  "entryPoint": "python-fastapi-crud/SKILL.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

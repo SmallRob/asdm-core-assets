@@ -1,0 +1,15 @@
+{
+  "registry_id": "playwright-e2e-testing",
+  "guid": "e5f6a7b8-c9d0-1234-ef12-345678901234",
+  "name": "Playwright E2E Testing Specs",
+  "description": "End-to-end UI testing guidelines using Playwright and TypeScript for web applications",
+  "scenario": "testing",
+  "version": "1.0.0",
+  "downloadUrl": "playwright-e2e-testing.zip",
+  "path": "playwright-e2e-testing",
+  "entryPoint": "playwright-e2e-testing/README.md",
+  "dateCreated": "2026-02-21T00:00:00Z",
+  "dateUpdated": "2026-02-21T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

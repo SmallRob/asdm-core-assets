@@ -1,0 +1,15 @@
+{
+  "registry_id": "pptx",
+  "guid": "d1e2f3a4-b5c6-7890-def1-234567890123",
+  "name": "PPTX Presentation Skills",
+  "description": "Comprehensive capabilities for creating, editing, and analyzing PowerPoint presentations using HTML-to-PPTX conversion and Office Open XML manipulation",
+  "scenario": "productivity",
+  "version": "1.0.0",
+  "downloadUrl": "pptx.zip",
+  "path": "pptx",
+  "entryPoint": "pptx/SKILL.md",
+  "dateCreated": "2026-03-18T00:00:00Z",
+  "dateUpdated": "2026-03-18T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

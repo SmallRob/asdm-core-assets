@@ -1,0 +1,15 @@
+{
+  "registry_id": "playwright-accessibility-testing",
+  "guid": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+  "name": "Playwright Accessibility Testing Specs",
+  "description": "Comprehensive guidelines for accessibility testing using Playwright with TypeScript and axe-core",
+  "scenario": "testing",
+  "version": "1.0.0",
+  "downloadUrl": "playwright-accessibility-testing.zip",
+  "path": "playwright-accessibility-testing",
+  "entryPoint": "playwright-accessibility-testing/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

@@ -1,0 +1,15 @@
+{
+  "registry_id": "html",
+  "guid": "a3b4c5d6-e7f8-9012-3456-789abcdef012",
+  "name": "HTML Development Specs",
+  "description": "Coding standards and best practices for HTML5 development including semantic markup and accessibility",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "html.zip",
+  "path": "html",
+  "entryPoint": "html/README.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

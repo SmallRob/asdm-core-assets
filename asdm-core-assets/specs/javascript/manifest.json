@@ -1,0 +1,15 @@
+{
+  "registry_id": "javascript",
+  "guid": "d0e1f2a3-b4c5-6789-0123-456789abcdef",
+  "name": "JavaScript Development Specs",
+  "description": "Coding standards and guidelines for JavaScript development (ES6+) based on Alibaba F2E standards",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "javascript.zip",
+  "path": "javascript",
+  "entryPoint": "javascript/README.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

@@ -1,0 +1,20 @@
+{
+  "registry_id": "sample-toolset",
+  "guid": "e1f2a3b4-c5d6-7890-1234-567890123456",
+  "name": "Sample Toolset",
+  "description": "A sample toolset demonstrating the structure and components of an ASDM toolset.",
+  "scenario": "general",
+  "version": "0.0.1",
+  "downloadUrl": "sample-toolset.zip",
+  "path": null,
+  "entryPoint": "sample-toolset/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "action-tool-001": "工具动作001",
+    "action-tool-002": "工具动作002"
+  }
+}

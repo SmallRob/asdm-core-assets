@@ -1,0 +1,15 @@
+{
+  "registry_id": "report-development",
+  "guid": "a9b0c1d2-e3f4-5678-9abc-def012349",
+  "name": "Report Development Generator",
+  "description": "Generate report templates and implementations for various platforms and formats. Supports data tables, charts, PDF exports, Excel exports, and professional report solutions.",
+  "scenario": "data",
+  "version": "1.0.0",
+  "downloadUrl": "report-development.zip",
+  "path": "report-development",
+  "entryPoint": "report-development/SKILL.md",
+  "dateCreated": "2026-03-20T00:00:00Z",
+  "dateUpdated": "2026-03-20T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

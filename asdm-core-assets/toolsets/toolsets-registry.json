@@ -1,74 +1,14 @@
 {
   "version": "1.0.3",
   "dateCreated": "2026-02-19T00:00:00Z",
-  "dateUpdated": "2026-02-26T00:00:00Z",
+  "dateUpdated": "2026-04-21T00:00:00Z",
   "createdBy": "ASDM Platform",
   "updatedBy": "ASDM Platform",
   "toolsets": [
-    {
-      "id": "prototype-builder",
-      "guid": "f2a3b4c5-d6e7-8901-2345-678901234567",
-      "name": "Prototype Builder",
-      "description": "A toolset for rapidly generating verifiable prototypes based on user requirements and technology stack specifications. Supports React, Vue, HTML, and WeChat Mini Program.",
-      "version": "1.0.0",
-      "downloadUrl": "prototype-builder.zip",
-      "entryPoint": "prototype-builder/README.md",
-      "dateCreated": "2026-03-17T00:00:00Z",
-      "dateUpdated": "2026-03-17T00:00:00Z",
-      "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
-    },
-    {
-      "id": "basic-tools",
-      "guid": "b8c9d0e1-f2a3-4567-8901-234567890123",
-      "name": "Basic Tools",
-      "description": "A set of basic tools for AI-assisted software development.",
-      "version": "0.0.2",
-      "downloadUrl": "basic-tools.zip",
-      "entryPoint": "basic-tools/README.md",
-      "dateCreated": "2026-01-21T00:00:00Z",
-      "dateUpdated": "2026-01-21T00:00:00Z",
-      "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
-    },
-    {
-      "id": "context-builder",
-      "guid": "c9d0e1f2-a3b4-5678-9012-345678901234",
-      "name": "Context Builder",
-      "description": "A toolset for building context for a workspace.",
-      "version": "0.0.1",
-      "downloadUrl": "context-builder.zip",
-      "entryPoint": "context-builder/README.md",
-      "dateCreated": "2026-02-19T00:00:00Z",
-      "dateUpdated": "2026-02-19T00:00:00Z",
-      "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
-    },
-    {
-      "id": "prd-builder",
-      "guid": "d0e1f2a3-b4c5-6789-0123-456789012345",
-      "name": "PRD Builder",
-      "description": "A toolset for planning and executing tasks for a workspace.",
-      "version": "0.0.2",
-      "downloadUrl": "prd-builder.zip",
-      "entryPoint": "prd-builder/README.md",
-      "dateCreated": "2026-01-19T00:00:00Z",
-      "dateUpdated": "2026-01-19T00:00:00Z",
-      "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
-    },
-    {
-      "id": "sample-toolset",
-      "guid": "e1f2a3b4-c5d6-7890-1234-567890123456",
-      "name": "Sample Toolset",
-      "description": "A sample toolset demonstrating the structure and components of an ASDM toolset.",
-      "version": "0.0.1",
-      "downloadUrl": "sample-toolset.zip",
-      "entryPoint": "sample-toolset/README.md",
-      "dateCreated": "2026-02-19T00:00:00Z",
-      "dateUpdated": "2026-02-19T00:00:00Z",
-      "createdBy": "ASDM Platform",
-      "updatedBy": "ASDM Platform"
-    }
+    "prototype-builder",
+    "basic-tools",
+    "context-builder",
+    "prd-builder",
+    "sample-toolset"
   ]
 }

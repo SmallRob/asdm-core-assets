@@ -1,0 +1,15 @@
+{
+  "registry_id": "css",
+  "guid": "f2a3b4c5-d6e7-8901-2345-6789abcdef01",
+  "name": "CSS Development Specs",
+  "description": "Coding standards and best practices for CSS and preprocessors (Sass, Less) based on Alibaba F2E standards",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "css.zip",
+  "path": "css",
+  "entryPoint": "css/README.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

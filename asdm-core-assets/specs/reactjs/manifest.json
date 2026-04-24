@@ -1,0 +1,15 @@
+{
+  "registry_id": "reactjs",
+  "guid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "name": "React.js Development Specs",
+  "description": "Coding standards and guidelines for React.js development",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "reactjs.zip",
+  "path": "reactjs",
+  "entryPoint": "reactjs/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}
