@@ -1,0 +1,15 @@
+{
+  "registry_id": "sql-ddl",
+  "guid": "f8a9b0c1-d2e3-4567-89ab-cdef012348",
+  "name": "SQL DDL Generator",
+  "description": "Generate SQL DDL scripts for various database systems. Supports PostgreSQL, MySQL, SQLite, and SQL Server with proper constraints, indexes, and naming conventions.",
+  "scenario": "data",
+  "version": "1.0.0",
+  "downloadUrl": "sql-ddl.zip",
+  "path": "sql-ddl",
+  "entryPoint": "sql-ddl/SKILL.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

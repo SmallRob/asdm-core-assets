@@ -1,0 +1,15 @@
+{
+  "registry_id": "java-general",
+  "guid": "a7b8c9d0-e1f2-3456-1234-567890123456",
+  "name": "Java General Purpose Specs",
+  "description": "Comprehensive Java development guidelines based on Effective Java, covering objects, classes, generics, enums, lambdas, streams, methods, exceptions, concurrency, and serialization",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "java-general.zip",
+  "path": "java-general",
+  "entryPoint": "java-general/README.md",
+  "dateCreated": "2026-02-21T00:00:00Z",
+  "dateUpdated": "2026-02-21T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

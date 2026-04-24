@@ -1,0 +1,15 @@
+{
+  "registry_id": "node",
+  "guid": "b4c5d6e7-f8a9-0123-4567-89abcdef0123",
+  "name": "Node.js Development Specs",
+  "description": "Coding standards and best practices for Node.js server-side development",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "node.zip",
+  "path": "node",
+  "entryPoint": "node/README.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

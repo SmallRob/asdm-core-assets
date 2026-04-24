@@ -1,0 +1,15 @@
+{
+  "registry_id": "java-springboot-jpa",
+  "guid": "f6a7b8c9-d0e1-2345-f123-456789012345",
+  "name": "Java Spring Boot JPA Specs",
+  "description": "Coding standards and best practices for Java Spring Boot 3 with JPA, following SOLID, DRY, KISS, and YAGNI principles",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "java-springboot-jpa.zip",
+  "path": "java-springboot-jpa",
+  "entryPoint": "java-springboot-jpa/README.md",
+  "dateCreated": "2026-02-21T00:00:00Z",
+  "dateUpdated": "2026-02-21T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

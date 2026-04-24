@@ -1,0 +1,15 @@
+{
+  "registry_id": "typescript",
+  "guid": "e1f2a3b4-c5d6-7890-1234-56789abcdef0",
+  "name": "TypeScript Development Specs",
+  "description": "Coding standards and guidelines for TypeScript development, extending JavaScript standards with type-safe patterns",
+  "scenario": "frontend",
+  "version": "1.0.0",
+  "downloadUrl": "typescript.zip",
+  "path": "typescript",
+  "entryPoint": "typescript/README.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

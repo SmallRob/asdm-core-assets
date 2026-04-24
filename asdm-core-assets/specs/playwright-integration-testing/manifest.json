@@ -1,0 +1,15 @@
+{
+  "registry_id": "playwright-integration-testing",
+  "guid": "d4e5f6a7-b8c9-0123-def1-234567890123",
+  "name": "Playwright Integration Testing Specs",
+  "description": "Comprehensive guidelines for integration testing using Playwright with TypeScript",
+  "scenario": "testing",
+  "version": "1.0.0",
+  "downloadUrl": "playwright-integration-testing.zip",
+  "path": "playwright-integration-testing",
+  "entryPoint": "playwright-integration-testing/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

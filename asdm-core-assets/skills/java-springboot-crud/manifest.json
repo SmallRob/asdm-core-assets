@@ -1,0 +1,15 @@
+{
+  "registry_id": "java-springboot-crud",
+  "guid": "b4c5d6e7-f8a9-0123-4567-89abcdef0124",
+  "name": "Java Spring Boot CRUD Generator",
+  "description": "Generate Java Spring Boot CRUD operations with Spring Data JPA. Includes Entity, Repository, Service, Controller, DTO, and Mapper templates.",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "java-springboot-crud.zip",
+  "path": "java-springboot-crud",
+  "entryPoint": "java-springboot-crud/SKILL.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

@@ -1,0 +1,15 @@
+{
+  "registry_id": "dotnet-crud",
+  "guid": "c5d6e7f8-a9b0-1234-5678-9abcdef01235",
+  "name": ".NET CRUD Generator",
+  "description": "Generate .NET CRUD operations using Entity Framework Core with ASP.NET Core. Includes Models, DTOs, Services, Controllers, and DbContext templates.",
+  "scenario": "backend",
+  "version": "1.0.0",
+  "downloadUrl": "dotnet-crud.zip",
+  "path": "dotnet-crud",
+  "entryPoint": "dotnet-crud/SKILL.md",
+  "dateCreated": "2026-03-19T00:00:00Z",
+  "dateUpdated": "2026-03-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform"
+}

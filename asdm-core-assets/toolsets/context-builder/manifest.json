@@ -1,0 +1,20 @@
+{
+  "registry_id": "context-builder",
+  "guid": "c9d0e1f2-a3b4-5678-9012-345678901234",
+  "name": "Context Builder",
+  "description": "A toolset for building context for a workspace.",
+  "scenario": "productivity",
+  "version": "0.0.1",
+  "downloadUrl": "context-builder.zip",
+  "path": null,
+  "entryPoint": "context-builder/README.md",
+  "dateCreated": "2026-02-19T00:00:00Z",
+  "dateUpdated": "2026-02-19T00:00:00Z",
+  "createdBy": "ASDM Platform",
+  "updatedBy": "ASDM Platform",
+  "configType": "toolset",
+  "commands": {
+    "asdm-context-build": "构建上下文",
+    "asdm-context-update": "更新上下文"
+  }
+}
